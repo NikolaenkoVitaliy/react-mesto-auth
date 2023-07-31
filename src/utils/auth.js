@@ -2,8 +2,7 @@ export const BASE_URL = "https://auth.nomoreparties.co";
 
 const checkRequestResponse = (res) => {
   if (res.ok) {
-    console.log(res);
-    return Promise.resolve(res.json());
+    return res.json();
   }
   return Promise.reject("Ошибка");
 };
@@ -33,7 +32,7 @@ export const getToken = (jwt) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${jwt}`,
+      Authorization: `Bearer ${jwt}`,
     },
   }).then(checkRequestResponse);
 };

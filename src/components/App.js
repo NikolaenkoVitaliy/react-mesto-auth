@@ -3,7 +3,7 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
-import api from "./utils/api";
+import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
@@ -13,7 +13,7 @@ import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoToolTip from "./InfoToolTip";
-import * as auth from "./utils/auth";
+import * as auth from "../utils/auth";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -51,6 +51,7 @@ function App() {
   }, []);
 
   React.useEffect(() => {
+    if(isLoggedIn) {
     api
       .getServerUserInfo()
       .then((data) => {
@@ -68,7 +69,7 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }}, [isLoggedIn]);
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -239,6 +240,7 @@ function App() {
               isLoggedIn ? <Navigate to="/" /> : <Navigate to="/sign-in" />
             }
           />
+          <Route path="*" element={<Navigate to="/sign-in"/>}/>
         </Routes>
         <ImagePopup place={selectedCard} onClose={closeAllPopups}></ImagePopup>
         <EditProfilePopup
